@@ -24,7 +24,7 @@
           <li class="nav-item dropdown">
             <NuxtLink
               class="nav-link dropdown-toggle text-dark"
-              to="/discover"
+              to="/"
               id="navbarDropdown"
               role="button"
               data-bs-toggle="dropdown"
@@ -38,7 +38,7 @@
                   v-for="discoverNav in discoverNavLinks"
                   :key="discoverNav.linkName"
                   class="dropdown-item"
-                  :to="'/discover' + discoverNav.link"
+                  :to="'/' + discoverNav.link"
                 >
                   {{ discoverNav.linkName }}
                 </NuxtLink>
@@ -48,7 +48,7 @@
           <li class="nav-item dropdown">
             <NuxtLink
               class="nav-link dropdown-toggle text-dark"
-              to="/genres"
+              to="/"
               id="navbarDropdown"
               role="button"
               data-bs-toggle="dropdown"
@@ -91,9 +91,9 @@ export default {
   data() {
     return {
       discoverNavLinks: [
-        { linkName: "Trending", link: "/trending" },
-        { linkName: "Top Rated", link: "/top-rated" },
-        { linkName: "Upcoming", link: "/upcoming" },
+        { linkName: "Trending", link: "trending" },
+        { linkName: "Top Rated", link: "top-rated" },
+        { linkName: "Upcoming", link: "upcoming" },
       ],
       genresNavLinks: "",
       navLinks: ["Discover", "Genres"],
