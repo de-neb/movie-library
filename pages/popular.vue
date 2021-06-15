@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid mt-3 class mb-4">
-    <h1 class="fs-3 m-auto fw-bold">Trending</h1>
+    <h1 class="fs-3 m-auto fw-bold">Popular</h1>
     <div class="container text-center">
       <div class="row">
         <div
@@ -94,11 +94,22 @@
       </div>
     </div>
 
-    <!-- button for next page -->
-    <NextPage
-      @next-page="getNextPage"
-      class="mt-3 d-flex justify-content-center"
-    />
+    <!-- button for page  navigation-->
+    <div
+      class="container d-flex justify-content-around align-items-center py-5"
+    >
+      <PreviousPage
+        @previous-page="getPreviousPage"
+        :discover-prop="discoverProp"
+        :current-page="currentPage"
+        v-if="currentPage > 1"
+      />
+      <NextPage
+        @next-page="getNextPage"
+        :discover-prop="discoverProp"
+        :current-page="currentPage"
+      />
+    </div>
   </div>
 </template>
 
@@ -106,22 +117,31 @@
 export default {
   data() {
     return {
+      discoverProp: "popular",
       popularMovies: [],
       rowClasses: ["d-flex", "justify-content-around", "align-items-stretch"],
-      popularUrl:
-        "https://api.themoviedb.org/3/movie/popular?api_key=2f606ab1225d921304a26a2c089d5062",
+      popularUrl: `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`,
+      currentPage: 1,
+      lastPage: "",
+      upcommingPage: "",
     };
   },
   methods: {
-    getNextPage(url) {
-      this.popularUrl = url;
+    getNextPage(...args) {
+      const [url, page] = args;
+      this.currentPage = page;
       this.popularMovies = [];
-      this.fetchData();
-      console.log(this.popularUrl);
+      this.fetchData(url);
     },
-    async fetchData() {
+    getPreviousPage(...args) {
+      const [url, page] = args;
+      this.currentPage = page;
+      this.popularMovies = [];
+      this.fetchData(url);
+    },
+    async fetchData(url) {
       try {
-        let response = await fetch(this.popularUrl);
+        let response = await fetch(url);
         let data = await response.json();
         //get poster path
         data.results.forEach((movie) => {
@@ -132,7 +152,6 @@ export default {
             overview: movie.overview,
           });
         });
-        console.log(this.popularMovies);
       } catch (error) {
         console.log("an error occured while fetching data", error);
       }
@@ -141,7 +160,7 @@ export default {
   mounted() {
     //fetch popular movies
 
-    this.fetchData();
+    this.fetchData(this.popularUrl);
 
     //add classes in row divs
     const rows = document.querySelectorAll(".row");
@@ -187,12 +206,6 @@ export default {
 h5 {
   font-weight: bold;
 }
-
-/* .col-3:hover {
-  cursor: pointer;
-  transform: scale(1.05);
-  transition: ease 0.3s;
-} */
 
 .overview-container {
   position: absolute;

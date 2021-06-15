@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       discoverNavLinks: [
-        { linkName: "Trending", link: "trending" },
+        { linkName: "Popular", link: "popular" },
         { linkName: "Top Rated", link: "top-rated" },
         { linkName: "Upcoming", link: "upcoming" },
       ],
