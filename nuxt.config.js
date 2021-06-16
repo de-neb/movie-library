@@ -38,7 +38,7 @@ export default {
       },
       {
         href:
-          "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto&display=swap",
+          "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto&family=Barlow&display=swap",
         rel: "stylesheet"
       },
       {

@@ -18,6 +18,11 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  font-family: "Roboto", sans-serif;
+  background: #eeeeee;
+}
+
 *,
 *::before,
 *::after {

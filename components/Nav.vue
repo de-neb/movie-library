@@ -92,12 +92,12 @@ export default {
     return {
       discoverNavLinks: [
         { linkName: "Popular", link: "popular" },
-        { linkName: "Top Rated", link: "top-rated" },
+        { linkName: "Top Rated", link: "top_rated" },
         { linkName: "Upcoming", link: "upcoming" },
       ],
       genresNavLinks: "",
       navLinks: ["Discover", "Genres"],
-      apiKey: "2f606ab1225d921304a26a2c089d5062",
+      apiKey: process.env.API_KEY,
       options: {
         method: "GET",
         headers: {
@@ -117,10 +117,6 @@ export default {
 </script>
 
 <style>
-body {
-  font-family: "Roboto", sans-serif;
-}
-
 .brand-font {
   font-family: "Bebas Neue", cursive;
   font-size: 2rem;
