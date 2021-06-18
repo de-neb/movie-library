@@ -2,10 +2,26 @@
   <div class="container mt-5">
     <div class="row d-flex align-items-start">
       <div class="col-8">
-        <h2>{{ movieDetails.title }}</h2>
-        <span class="text-center text-muted"
-          >{{ movieDetails.runtime }} min | {{ movieDetails.releaseDate }}</span
-        >
+        <div class="row d-flex justify-content-between">
+          <div class="col-10">
+            <h2>{{ movieDetails.title }}</h2>
+            <span class="text-center text-muted"
+              >{{ movieDetails.runtime }} min |
+              {{ movieDetails.releaseDate }}</span
+            >
+          </div>
+          <div class="col-2">
+            <h2 class="d-flex justify-content-center align-items-baseline">
+              <span class="material-icons text-warning fs-1 m-0 align-self-end">
+                star
+              </span>
+              {{ movieDetails.voteAvg }}<span class="fs-6 text-muted">/10</span>
+            </h2>
+            <span class="d-block text-muted text-end"
+              >{{ movieDetails.voteCount }} votes</span
+            >
+          </div>
+        </div>
         <div class="ratio ratio-16x9 mt-3">
           <h3></h3>
           <iframe
@@ -50,6 +66,11 @@
         >
       </div>
     </div>
+    <div class="row mt-5">
+      <div class="col-7 d-flex justify-content-end">
+        <Carousel :movie-id="movieId" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -61,12 +82,13 @@ export default {
       apiKey: process.env.API_KEY,
       youtubeKey: null,
       movieDetails: {},
+      movieId: this.$route.params.id,
     };
   },
   methods: {
     async fetchTrailer() {
       try {
-        const url = `${this.baseURL}/${this.$route.params.id}/videos?api_key=${this.apiKey}&language=en-US`;
+        const url = `${this.baseURL}/${this.movieId}/videos?api_key=${this.apiKey}&language=en-US`;
         const response = await fetch(url);
         const data = await response.json();
         this.youtubeKey = data.results[0].key;
@@ -76,11 +98,13 @@ export default {
     },
     async fetchmovieDetails() {
       try {
-        const url = `${this.baseURL}/${this.$route.params.id}?api_key=${this.apiKey}&language=en-US`;
+        const url = `${this.baseURL}/${this.movieId}?api_key=${this.apiKey}&language=en-US`;
         const response = await fetch(url);
         const data = await response.json();
         this.movieDetails = {
           genres: data.genres,
+          voteAvg: data.vote_average,
+          voteCount: data.vote_count,
           id: data.id,
           runtime: data.runtime,
           imdb: data.imdb_id,
@@ -93,7 +117,6 @@ export default {
             .slice(1)
             .join(" "),
         };
-        console.log("genre", this.movieDetails);
       } catch (error) {
         console.log("an error occured while fetching movie details ", error);
       }
