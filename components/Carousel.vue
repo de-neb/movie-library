@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Images</h2>
+    <h2>Photos</h2>
     <div
       id="carouselExampleIndicators"
       class="carousel slide mb-5"

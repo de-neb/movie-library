@@ -2,10 +2,10 @@
   <div>
     <button
       class="btn btn-warning d-flex justify-content-center"
+      :class="{ disabled: currentPage === 1 }"
       @click="previousPage"
     >
-      <span class="material-icons"> arrow_back_ios </span>
-      Page {{ currentPage - 1 }}
+      <span class="material-icons"> navigate_before </span>
     </button>
   </div>
 </template>

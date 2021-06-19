@@ -4,7 +4,7 @@
       <div class="col-8">
         <div class="row d-flex justify-content-between">
           <div class="col-10">
-            <h2>{{ movieDetails.title }}</h2>
+            <h1>{{ movieDetails.title }}</h1>
             <span class="text-center text-muted"
               >{{ movieDetails.runtime }} min |
               {{ movieDetails.releaseDate }}</span
@@ -66,9 +66,16 @@
         >
       </div>
     </div>
-    <div class="row mt-5">
-      <div class="col-7 d-flex justify-content-end">
+    <hr />
+    <div class="row mt-3">
+      <div class="col-6 d-flex justify-content-end">
         <Carousel :movie-id="movieId" />
+      </div>
+    </div>
+    <hr />
+    <div class="row mt-3 mb-5">
+      <div class="col-12">
+        <Credits :movie-id="movieId" />
       </div>
     </div>
   </div>

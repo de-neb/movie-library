@@ -133,21 +133,38 @@
     </div>
 
     <!-- button for page  navigation-->
-    <div
-      class="container d-flex justify-content-around align-items-center py-5"
+    <nav
+      class="
+        pagination
+        d-flex
+        justify-content-center
+        gap-3
+        align-items-center
+        py-5
+      "
     >
       <PreviousPage
         @previous-page="getPreviousPage"
         :discover-prop="$route.params.discoverProp"
         :current-page="currentPage"
-        v-if="currentPage > 1"
       />
+      <h6>
+        Page
+        <input
+          type="text"
+          v-model="currentPage"
+          id="page-num"
+          @keyup.enter="jumpToPage"
+        />{{ " of " + totalPages }}
+      </h6>
       <NextPage
         @next-page="getNextPage"
         :discover-prop="$route.params.discoverProp"
         :current-page="currentPage"
       />
-    </div>
+    </nav>
+
+    <!-- test -->
   </div>
 </template>
 
@@ -160,6 +177,8 @@ export default {
       rowClasses: ["d-flex", "justify-content-around", "align-items-stretch"],
       baseURL: `https://api.themoviedb.org/3/movie/`,
       currentPage: 1,
+      totalPages: null,
+      apiKey: process.env.API_KEY,
     };
   },
   methods: {
@@ -175,6 +194,13 @@ export default {
       this.discoverMovieCollection = [];
       this.fetchData(url);
     },
+    jumpToPage() {
+      const url = `${this.baseURL}${this.$route.params.discoverProp}?api_key=${this.apiKey}&page=${this.currentPage}`;
+      this.currentPage = parseInt(this.currentPage);
+      this.discoverMovieCollection = [];
+      this.fetchData(url);
+      console.log(url);
+    },
     async fetchData(url) {
       try {
         let response = await fetch(url);
@@ -189,6 +215,7 @@ export default {
             rating: movie.vote_average,
           });
         });
+        this.totalPages = data.total_pages;
       } catch (error) {
         console.log("an error occured while fetching data", error);
       }
@@ -279,5 +306,21 @@ h5 {
   display: -webkit-box;
   -webkit-line-clamp: 18;
   -webkit-box-orient: vertical;
+}
+
+input#page-num {
+  width: 2.3rem;
+  max-width: 3.5rem;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  border-bottom: 2px solid #ffb300;
+  background: none;
+  border-radius: 3px;
+  outline: none;
+  text-align: center;
+}
+
+input#page-num:focus {
+  width: 3.5rem;
 }
 </style>

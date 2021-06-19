@@ -4,8 +4,7 @@
       class="btn btn-warning d-flex justify-content-center"
       @click="nextPage"
     >
-      Page {{ currentPage + 1 }}
-      <span class="material-icons"> arrow_forward_ios </span>
+      <span class="material-icons"> navigate_next </span>
     </button>
   </div>
 </template>
