@@ -17,7 +17,7 @@ export default {
       baseApiUrl: "https://api.themoviedb.org/3/movie",
       apiKey: process.env.API_KEY,
       apiUrl: "",
-      pageNum: 2,
+      pageNum: null,
     };
   },
   methods: {

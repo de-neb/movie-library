@@ -69,7 +69,10 @@
           <div class="accordion-body">
             <table class="table table-hover">
               <tbody>
-                <tr v-for="person in crew" :key="person.name">
+                <tr
+                  v-for="person in crew"
+                  :key="person.id + '-' + person.name + '-' + person.job"
+                >
                   <td>
                     <img
                       :src="imgURL + person.profile_path"
@@ -116,7 +119,6 @@ export default {
         const data = await response.json();
         this.cast = [...data.cast];
         this.crew = [...data.crew];
-        console.log("crew", this.crew);
       } catch (error) {
         console.log("error while fetching credits ", error);
       }

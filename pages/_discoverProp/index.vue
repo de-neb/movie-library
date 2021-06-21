@@ -4,110 +4,10 @@
       <h1 class="fs-3 mt-5 fw-bold text-start prop-title">
         {{ $route.params.discoverProp.toUpperCase().replace("_", " ") }}
       </h1>
-      <div class="row">
-        <div class="col-3 p-3" v-for="movie in movieRow1" :key="movie.id">
-          <div class="position-relative">
-            <a :href="'/' + $route.params.discoverProp + '/' + movie.id">
-              <img
-                :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
-                :alt="movie.title + ' poster'"
-                class="img-fluid rounded-3"
-              />
-              <div class="overview-container line-clamp">
-                <h5 class="text-center">Overview</h5>
-                {{ movie.overview }}
-              </div>
-            </a>
-          </div>
-
-          <h5 class="mt-2">{{ movie.title }}</h5>
-          <h6 class="mt-2 fw-bold badge bg-warning text-dark rounded-pill">
-            {{ movie.rating }} ★
-          </h6>
-        </div>
-      </div>
-      <div class="row">
+      <div class="row d-flex justify-content-around align-items-stretch">
         <div
-          class="col-3 p-3 position-relative"
-          v-for="movie in movieRow2"
-          :key="movie.id"
-        >
-          <div class="position-relative">
-            <a :href="'/' + $route.params.discoverProp + '/' + movie.id">
-              <img
-                :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
-                :alt="movie.title + ' poster'"
-                class="img-fluid rounded-3"
-              />
-              <div class="overview-container line-clamp">
-                <h5 class="text-center">Overview</h5>
-                {{ movie.overview }}
-              </div>
-            </a>
-          </div>
-
-          <h5 class="mt-2">{{ movie.title }}</h5>
-          <h6 class="mt-2 fw-bold badge bg-warning text-dark rounded-pill">
-            {{ movie.rating }} ★
-          </h6>
-        </div>
-      </div>
-      <div class="row">
-        <div
-          class="col-3 p-3 position-relative"
-          v-for="movie in movieRow3"
-          :key="movie.id"
-        >
-          <div class="position-relative">
-            <a :href="'/' + $route.params.discoverProp + '/' + movie.id">
-              <img
-                :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
-                :alt="movie.title + ' poster'"
-                class="img-fluid rounded-3"
-              />
-              <div class="overview-container line-clamp">
-                <h5 class="text-center">Overview</h5>
-                {{ movie.overview }}
-              </div>
-            </a>
-          </div>
-
-          <h5 class="mt-2">{{ movie.title }}</h5>
-          <h6 class="mt-2 fw-bold badge bg-warning text-dark rounded-pill">
-            {{ movie.rating }} ★
-          </h6>
-        </div>
-      </div>
-      <div class="row">
-        <div
-          class="col-3 p-3 position-relative"
-          v-for="movie in movieRow4"
-          :key="movie.id"
-        >
-          <div class="position-relative">
-            <a :href="'/' + $route.params.discoverProp + '/' + movie.id">
-              <img
-                :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
-                :alt="movie.title + ' poster'"
-                class="img-fluid rounded-3"
-              />
-              <div class="overview-container line-clamp">
-                <h5 class="text-center">Overview</h5>
-                {{ movie.overview }}
-              </div>
-            </a>
-          </div>
-
-          <h5 class="mt-2">{{ movie.title }}</h5>
-          <h6 class="mt-2 fw-bold badge bg-warning text-dark rounded-pill">
-            {{ movie.rating }} ★
-          </h6>
-        </div>
-      </div>
-      <div class="row">
-        <div
-          class="col-3 p-3 position-relative"
-          v-for="movie in movieRow5"
+          class="col-3 p-3"
+          v-for="movie in discoverMovieCollection"
           :key="movie.id"
         >
           <div class="position-relative">
@@ -133,38 +33,16 @@
     </div>
 
     <!-- button for page  navigation-->
-    <nav
-      class="
-        pagination
-        d-flex
-        justify-content-center
-        gap-3
-        align-items-center
-        py-5
-      "
-    >
-      <PreviousPage
-        @previous-page="getPreviousPage"
-        :discover-prop="$route.params.discoverProp"
+
+    <nav class="d-flex justify-content-center align-items-center py-5">
+      <Pagination
         :current-page="currentPage"
-      />
-      <h6>
-        Page
-        <input
-          type="text"
-          v-model="currentPage"
-          id="page-num"
-          @keyup.enter="jumpToPage"
-        />{{ " of " + totalPages }}
-      </h6>
-      <NextPage
-        @next-page="getNextPage"
-        :discover-prop="$route.params.discoverProp"
-        :current-page="currentPage"
+        :total-pages="totalPages"
+        @next-page="getPage"
+        @previous-page="getPage"
+        @jump-to-page="getPage"
       />
     </nav>
-
-    <!-- test -->
   </div>
 </template>
 
@@ -174,32 +52,17 @@ export default {
     return {
       props: ["popular", "top_rated", "upcoming"],
       discoverMovieCollection: [],
-      rowClasses: ["d-flex", "justify-content-around", "align-items-stretch"],
-      baseURL: `https://api.themoviedb.org/3/movie/`,
+      baseURL: `https://api.themoviedb.org/3/movie`,
       currentPage: 1,
       totalPages: null,
       apiKey: process.env.API_KEY,
     };
   },
   methods: {
-    getNextPage(...args) {
-      const [url, page] = args;
-      this.currentPage = page;
+    getPage(page) {
+      this.currentPage = parseInt(page);
       this.discoverMovieCollection = [];
-      this.fetchData(url);
-    },
-    getPreviousPage(...args) {
-      const [url, page] = args;
-      this.currentPage = page;
-      this.discoverMovieCollection = [];
-      this.fetchData(url);
-    },
-    jumpToPage() {
-      const url = `${this.baseURL}${this.$route.params.discoverProp}?api_key=${this.apiKey}&page=${this.currentPage}`;
-      this.currentPage = parseInt(this.currentPage);
-      this.discoverMovieCollection = [];
-      this.fetchData(url);
-      console.log(url);
+      this.fetchData(this.apiURL);
     },
     async fetchData(url) {
       try {
@@ -216,8 +79,10 @@ export default {
           });
         });
         this.totalPages = data.total_pages;
+        console.log(url);
       } catch (error) {
         console.log("an error occured while fetching data", error);
+        console.log(url);
       }
     },
   },
@@ -225,41 +90,17 @@ export default {
     //fetch popular movies
     this.props.forEach((prop) => {
       if (this.$route.params.discoverProp === prop) {
-        this.fetchData(this.baseURL + `${prop}?api_key=${process.env.API_KEY}`);
+        this.fetchData(
+          this.baseURL + `/${prop}?api_key=${process.env.API_KEY}`
+        );
       }
-    });
-
-    //add classes in row divs
-    const rows = document.querySelectorAll(".row");
-    rows.forEach((row) => {
-      row.classList.add(...this.rowClasses);
     });
   },
   computed: {
-    movieRow1() {
-      return this.discoverMovieCollection.filter((movie, index) => {
-        return index < 4;
-      });
-    },
-    movieRow2() {
-      return this.discoverMovieCollection.filter((movie, index) => {
-        return index >= 4 && index < 8;
-      });
-    },
-    movieRow3() {
-      return this.discoverMovieCollection.filter((movie, index) => {
-        return index >= 8 && index < 12;
-      });
-    },
-    movieRow4() {
-      return this.discoverMovieCollection.filter((movie, index) => {
-        return index >= 12 && index < 16;
-      });
-    },
-    movieRow5() {
-      return this.discoverMovieCollection.filter((movie, index) => {
-        return index >= 16 && index < 20;
-      });
+    apiURL() {
+      return `${this.baseURL}/${this.$route.params.discoverProp}?api_key=${
+        this.apiKey
+      }&page=${this.currentPage.toString()}`;
     },
   },
 };
@@ -272,55 +113,5 @@ export default {
 
 h5 {
   font-weight: bold;
-}
-
-.prop-title {
-  font-family: "Barlow", sans-serif;
-  font-size: 2rem !important;
-}
-
-.overview-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #393e46a2;
-  color: #fff;
-  border-radius: 0.3rem;
-  height: 100%;
-  padding: 10px;
-  overflow: hidden;
-  width: 0;
-  opacity: 0;
-  text-align: initial;
-  cursor: pointer;
-  transition: all ease 0.3s;
-}
-
-.col-3:hover .overview-container {
-  width: calc(100%);
-  opacity: 1;
-  transition: all ease 0.3s;
-}
-
-.line-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 18;
-  -webkit-box-orient: vertical;
-}
-
-input#page-num {
-  width: 2.3rem;
-  max-width: 3.5rem;
-  transition: all 0.3s ease-in-out;
-  border: none;
-  border-bottom: 2px solid #ffb300;
-  background: none;
-  border-radius: 3px;
-  outline: none;
-  text-align: center;
-}
-
-input#page-num:focus {
-  width: 3.5rem;
 }
 </style>

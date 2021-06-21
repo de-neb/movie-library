@@ -70,7 +70,6 @@ export default {
         data.backdrops.forEach((obj) => {
           this.backdropPaths.push(obj.file_path);
         });
-        console.log("backdrops", this.backdropPaths);
       } catch (error) {
         console.log("error while fetching images", error);
       }

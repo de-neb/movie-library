@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="col-4">
-        <h5>Overview</h5>
+        <h2>Overview</h2>
         <p>
           {{ movieDetails.overview }}
         </p>
@@ -67,15 +67,21 @@
       </div>
     </div>
     <hr />
-    <div class="row mt-3">
+    <div class="row my-3">
       <div class="col-6 d-flex justify-content-end">
         <Carousel :movie-id="movieId" />
       </div>
     </div>
     <hr />
-    <div class="row mt-3 mb-5">
+    <div class="row my-3">
       <div class="col-12">
         <Credits :movie-id="movieId" />
+      </div>
+    </div>
+    <hr />
+    <div class="row mt-3 mb-5">
+      <div class="col-12">
+        <Recommendations :movie-id="movieId" />
       </div>
     </div>
   </div>
