@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h2>Recommendations</h2>
+    <h2 ref="recommendations">{{ title }}</h2>
     <div class="row text-center">
       <div class="col-3 p-3" v-for="movie in recoList" :key="movie.id">
         <div class="position-relative">
-          <a :href="'/' + $route.params.discoverProp + '/' + movie.id">
+          <a :href="'/movie/' + movie.id">
             <img
               :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
               :alt="movie.title + ' poster'"
@@ -40,7 +40,7 @@
 <script>
 export default {
   scrollToTop: true,
-  props: ["movie-id"],
+  props: ["movie-id", "title"],
   data() {
     return {
       apiKey: process.env.API_KEY,
@@ -55,6 +55,7 @@ export default {
       this.currentPage = parseInt(page);
       this.recoList = [];
       this.fetchRecommendations(this.apiURL);
+      this.$el.scrollIntoView({ behavior: "smooth" });
     },
     async fetchRecommendations(url) {
       try {

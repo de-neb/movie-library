@@ -3,7 +3,14 @@
     <div class="row d-flex align-items-center text-center">
       <div class="col-2">
         <button
-          class="btn btn-warning d-flex justify-content-center w-100 px-3"
+          class="
+            btn btn-warning
+            d-flex
+            justify-content-center
+            w-100
+            px-3
+            rounded-circle
+          "
           :class="{ disabled: currentPage === 1 }"
           @click="previousPage"
         >
@@ -24,8 +31,15 @@
       </div>
       <div class="col-2">
         <button
-          class="btn btn-warning d-flex justify-content-center w-100 px-3"
-          :class="{ disabled: currentPage === 500 }"
+          class="
+            btn btn-warning
+            d-flex
+            justify-content-center
+            w-100
+            px-3
+            rounded-circle
+          "
+          :class="{ disabled: currentPage === totalPages }"
           @click="nextPage"
         >
           <span class="material-icons"> navigate_next </span>

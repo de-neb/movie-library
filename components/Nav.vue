@@ -21,66 +21,32 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <NuxtLink
-              class="nav-link dropdown-toggle text-dark"
-              to="/"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Discover
+          <li
+            class="nav-item"
+            v-for="discoverNav in discoverNavLinks"
+            :key="discoverNav.linkName"
+          >
+            <NuxtLink class="nav-link" :to="'/' + discoverNav.link">
+              {{ discoverNav.linkName }}
             </NuxtLink>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li>
-                <NuxtLink
-                  v-for="discoverNav in discoverNavLinks"
-                  :key="discoverNav.linkName"
-                  class="dropdown-item"
-                  :to="'/' + discoverNav.link"
-                >
-                  {{ discoverNav.linkName }}
-                </NuxtLink>
-              </li>
-            </ul>
           </li>
-          <li class="nav-item dropdown">
-            <NuxtLink
-              class="nav-link dropdown-toggle text-dark"
-              to="/"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Genres
-            </NuxtLink>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li>
-                <NuxtLink
-                  v-for="genre in genresNavLinks"
-                  :key="genre.id"
-                  class="dropdown-item"
-                  to="/genres"
-                >
-                  {{ genre.name }}
-                </NuxtLink>
-              </li>
-            </ul>
+
+          <li class="nav-item">
+            <NuxtLink class="nav-link" to="/genres"> Browse by Genre </NuxtLink>
           </li>
         </ul>
-        <form class="d-flex">
+        <div class="d-flex w-25 rounded-pill form-control">
+          <span class="material-icons"> search </span>
           <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
+            type="text"
+            id="search"
+            ref="search"
+            placeholder="Search a movie "
+            aria-describedby="basic-addon1"
+            @keyup.enter="searchMovie"
+            v-model="searchedVal"
           />
-          <button class="btn btn-outline-dark" type="submit">
-            <span class="material-icons fs-3"> search </span>
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   </nav>
@@ -104,7 +70,19 @@ export default {
           "Content-Type": "application/json",
         },
       },
+      searchedVal: null,
     };
+  },
+  methods: {
+    searchMovie(e) {
+      e.preventDefault();
+
+      this.$router.push({
+        path: "/search",
+        query: { value: this.searchedVal },
+      });
+      this.$refs.search.value = "";
+    },
   },
   async mounted() {
     // get movie genres
@@ -113,19 +91,14 @@ export default {
     let data = await response.json();
     this.genresNavLinks = data.genres;
   },
+  // watch: {
+  //   searchedVal(newVal) {
+  //     this.$store.commit("setSearchedVal", newVal);
+  //     console.log(this.searchedVal);
+  //   },
+  // },
 };
 </script>
 
 <style>
-.brand-font {
-  font-family: "Bebas Neue", cursive;
-  font-size: 2rem;
-}
-
-input[type="search"]:focus {
-  border-color: rgb(255, 219, 59);
-  box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset,
-    0 0 8px rgba(133, 114, 7, 0.6);
-  outline: 0 none;
-}
 </style>

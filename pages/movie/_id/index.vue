@@ -81,7 +81,7 @@
     <hr />
     <div class="row mt-3 mb-5">
       <div class="col-12">
-        <Recommendations :movie-id="movieId" />
+        <Recommendations :movie-id="movieId" :title="'Recommendations'" />
       </div>
     </div>
   </div>
