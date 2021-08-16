@@ -1,6 +1,13 @@
+// variables
+$slide: cubic-bezier(0, 0.98, 0.34, 0.9);
+
 body {
   font-family: "Roboto", sans-serif;
-  background-color: #f7f7f7;
+  background-color: #eeeeee;
+}
+
+.link-hover:hover {
+  color: #fdb93c !important;
 }
 
 .prop-title {
@@ -8,34 +15,57 @@ body {
   font-size: 2rem !important;
 }
 
-.overview-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #393e46a2;
-  color: #fff;
-  border-radius: 0.3rem;
-  height: 100%;
-  padding: 10px;
-  overflow: hidden;
-  width: 0;
-  opacity: 0;
-  text-align: initial;
-  cursor: pointer;
-  transition: all ease 0.3s;
+.col-3 {
+  .overview-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #212529de;
+    color: #fff;
+    border-radius: 0.3rem;
+    height: 100%;
+    padding: 20px;
+    width: 0;
+    opacity: 0;
+    text-align: initial;
+    cursor: pointer;
+    transition: width $slide 0.3s 0.1s;
+  }
+  .overview-text {
+    overflow: hidden;
+    height: inherit;
+    opacity: 0;
+    transition: ease 0.1s 0.4s;
+  }
+  &:hover .overview-container {
+    width: calc(100%);
+    opacity: 1;
+    transition: width $slide 0.3s 0.1s;
+  }
+  &:hover .overview-text {
+    opacity: 1;
+    transition: ease 0.1s 0.4s;
+  }
+  &:hover .poster-img {
+    transform: scale(0.8);
+    transition: transform ease 0.3s;
+  }
+  &:not(:hover) .overview-container {
+    width: 0;
+    opacity: 0;
+    transition: $slide 0.3s;
+  }
+  &:not(:hover) .poster-img {
+    transform: scale(1);
+    transition: transform ease 0.3s;
+  }
 }
 
-.col-3:hover .overview-container {
-  width: calc(100%);
-  opacity: 1;
-  transition: all ease 0.3s;
-}
-
-.line-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 18;
-  -webkit-box-orient: vertical;
-}
+// .line-clamp {
+//   display: -webkit-box;
+//   -webkit-line-clamp: 18;
+//   -webkit-box-orient: vertical;
+// }
 
 input#page-num {
   width: 2.3rem;
@@ -85,11 +115,11 @@ input[type="search"]:focus {
 
 .bg-warning,
 .btn-warning {
-  background-color: #f79c1d !important;
+  background-color: #fdb827 !important;
 }
 
 .text-warning {
-  color: #f79c1d !important;
+  color: #fdb827 !important;
 }
 
 input#search {
@@ -97,13 +127,21 @@ input#search {
   outline: none;
   width: 100%;
   background: none;
+  color: #fff;
 }
 
 .form-control {
-  opacity: 0.4 !important;
+  background: none;
+  border-radius: 0;
+  border: 4.5px double #fdb827 !important;
+  border-radius: 5px;
 }
 
 .spinner-grow {
   width: 5rem;
   height: 5rem;
+}
+
+.container {
+  min-height: 100vh !important;
 }

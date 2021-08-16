@@ -35,11 +35,14 @@
               <img
                 :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
                 :alt="movie.title + ' poster'"
-                class="img-fluid rounded-3"
+                class="img-fluid rounded-3 poster-img"
               />
-              <div class="overview-container line-clamp">
-                <h5 class="text-center">Overview</h5>
-                {{ movie.overview }}
+              <div class="overview-container line-clamp shadow-lg">
+                <div class="overview-text">
+                  <h5 class="text-center">Overview</h5>
+                  <hr class="text-light" />
+                  {{ movie.overview }}
+                </div>
               </div>
             </a>
           </div>
@@ -68,6 +71,11 @@
 
 <script>
 export default {
+  validate({ params }) {
+    //checks if route exists from the list
+    const list = ["popular", "top_rated", "upcoming"];
+    return list.includes(params.discoverProp);
+  },
   data() {
     return {
       props: ["popular", "top_rated", "upcoming"],
@@ -118,6 +126,7 @@ export default {
         );
       }
     });
+    console.log("dsicover");
   },
   computed: {
     apiURL() {

@@ -3,7 +3,7 @@
     class="
       container
       d-flex
-      justify-content-center
+      justify-content-start
       align-items-center
       flex-column
     "
@@ -29,47 +29,22 @@
       </div>
     </div>
     <!-- Sort -->
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="btn-group">
-          <button
-            type="button"
-            class="btn btn-warning dropdown-toggle d-flex align-items-center"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+    <div class="row mt-4 align-self-end">
+      <div class="col-12 select-wrapper">
+        <select
+          class="text-capitalize select-underline"
+          @change="sortMovies"
+          v-model="selectedFilter"
+        >
+          <option
+            v-for="(filter, index) in filterValues"
+            :key="filter"
+            :value="filter"
+            :selected="index == 0"
           >
-            <span class="material-icons"> sort </span>Sort By
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li>
-              <a
-                class="dropdown-item"
-                href="#"
-                @click="sortMovies"
-                data-value="popularity.desc"
-                >Popularity</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                href="#"
-                @click="sortMovies"
-                data-value="release_date.desc"
-                >Release Date</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                href="#"
-                @click="sortMovies"
-                data-value="vote_average.desc"
-                >Rating</a
-              >
-            </li>
-          </ul>
-        </div>
+            {{ filter.slice(0, -5).replace("_", " ") }}
+          </option>
+        </select>
       </div>
     </div>
     <div
@@ -79,7 +54,11 @@
     >
       <span class="visually-hidden">Loading...</span>
     </div>
-    <div class="row text-center mt-2 w-100" :class="{ 'd-none': !hide }">
+    <div
+      class="row text-center mt-2 w-100 g-0"
+      :class="{ 'd-none': !hide }"
+      v-if="movieList.length"
+    >
       <div class="col-3 p-3" v-for="movie in movieList" :key="movie.id">
         <div class="position-relative">
           <a :href="'/movie/' + movie.id">
@@ -107,7 +86,13 @@
         </h6>
       </div>
     </div>
-
+    <div
+      class="row d-flex text-center align-items-center mt-2 w-100 h-100"
+      v-else
+      :class="{ 'd-none': !hide }"
+    >
+      <h2 class="text-secondary fw-bold fs-1">NO RESULTS FOUND</h2>
+    </div>
     <div class="row">
       <nav class="d-flex justify-content-center align-items-center py-5">
         <Pagination
@@ -135,6 +120,12 @@ export default {
       totalPages: null,
       currentPage: 1,
       hide: true,
+      filterValues: [
+        "popularity.desc",
+        "release_date.desc",
+        "vote_average.desc",
+      ],
+      selectedFilter: "popularity.desc",
     };
   },
   methods: {
@@ -183,11 +174,7 @@ export default {
           this.genreSelected.splice(index, 1);
         }
       });
-      // if (this.genreSelected.length) {
-      //   this.disable = false;
-      // } else {
-      //   this.disable = true;
-      // }
+
       this.getMovieList();
     },
     getPage(page) {
@@ -201,9 +188,9 @@ export default {
     sortMovies(event) {
       const url = `${this.baseURL}/discover/movie?api_key=${
         this.apiKey
-      }&language=en-US&sort_by=${event.target.getAttribute(
-        "data-value"
-      )}&include_adult=false&page=1&with_genres=${this.genreSelected.toString()}`;
+      }&language=en-US&sort_by=${
+        this.selectedFilter
+      }&include_adult=false&page=1&with_genres=${this.genreSelected.toString()}`;
       this.fetchMovieByGenres(url);
     },
   },
@@ -239,5 +226,22 @@ export default {
 }
 .checkbox:checked ~ .badge {
   background-color: #42b16c;
+}
+.h-100 {
+  min-height: 400px;
+}
+
+.select-underline {
+  border: none;
+  padding: 10px;
+  background: none;
+  outline: none;
+}
+
+.select-wrapper {
+  border-bottom: 3px solid #f79d39;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 </style>

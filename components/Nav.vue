@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
     <div class="container-fluid">
       <NuxtLink
-        class="navbar-brand text-dark brand-font d-flex align-items-center"
+        class="navbar-brand text-warning brand-font d-flex align-items-center"
         to="/"
       >
         <span class="material-icons icon-size fs-1"> movie </span>
@@ -26,17 +26,29 @@
             v-for="discoverNav in discoverNavLinks"
             :key="discoverNav.linkName"
           >
-            <NuxtLink class="nav-link" :to="'/' + discoverNav.link">
+            <NuxtLink
+              class="nav-link link-hover"
+              :class="checkActive(discoverNav.link)"
+              :to="'/' + discoverNav.link"
+            >
               {{ discoverNav.linkName }}
             </NuxtLink>
           </li>
 
           <li class="nav-item">
-            <NuxtLink class="nav-link" to="/genres"> Browse by Genre </NuxtLink>
+            <NuxtLink
+              class="nav-link link-hover"
+              :class="{
+                active: $route.name == 'genres',
+              }"
+              to="/genres"
+            >
+              Browse by Genre
+            </NuxtLink>
           </li>
         </ul>
-        <div class="d-flex w-25 rounded-pill form-control">
-          <span class="material-icons"> search </span>
+        <div class="d-flex w-25 form-control rounded-pill">
+          <span class="material-icons text-light"> search </span>
           <input
             type="text"
             id="search"
@@ -45,6 +57,7 @@
             aria-describedby="basic-addon1"
             @keyup.enter="searchMovie"
             v-model="searchedVal"
+            autocomplete="off"
           />
         </div>
       </div>
@@ -83,6 +96,11 @@ export default {
       });
       this.$refs.search.value = "";
     },
+    checkActive(currentRoute) {
+      return {
+        active: currentRoute == this.$route.params.discoverProp ? true : false,
+      };
+    },
   },
   async mounted() {
     // get movie genres
@@ -90,15 +108,14 @@ export default {
     let response = await fetch(url, this.options);
     let data = await response.json();
     this.genresNavLinks = data.genres;
+    console.log("route", this.$route);
   },
-  // watch: {
-  //   searchedVal(newVal) {
-  //     this.$store.commit("setSearchedVal", newVal);
-  //     console.log(this.searchedVal);
-  //   },
-  // },
 };
 </script>
 
-<style>
+<style scoped>
+.active {
+  font-weight: bold !important;
+  color: #ffff !important;
+}
 </style>

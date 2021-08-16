@@ -11,7 +11,7 @@
       "
     >
       <div
-        class="spinner-grow text-warning"
+        class="spinner-grow text-warning m-5"
         :class="{ 'd-none': hide }"
         role="status"
       >
@@ -128,7 +128,7 @@ export default {
       this.apiKey
     }&query=${to.query.value}`;
     this.searchMovie(url);
-    console.log("query", to.query.value);
+
     next();
   },
 };

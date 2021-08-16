@@ -4,7 +4,7 @@
       <div class="col-2">
         <button
           class="
-            btn btn-warning
+            btn btn-dark
             d-flex
             justify-content-center
             w-100
@@ -14,7 +14,7 @@
           :class="{ disabled: currentPage === 1 }"
           @click="previousPage"
         >
-          <span class="material-icons"> navigate_before </span>
+          <span class="material-icons text-warning"> navigate_before </span>
         </button>
       </div>
       <div class="col-8">
@@ -32,7 +32,7 @@
       <div class="col-2">
         <button
           class="
-            btn btn-warning
+            btn btn-dark
             d-flex
             justify-content-center
             w-100
@@ -42,7 +42,7 @@
           :class="{ disabled: currentPage === totalPages }"
           @click="nextPage"
         >
-          <span class="material-icons"> navigate_next </span>
+          <span class="material-icons text-warning"> navigate_next </span>
         </button>
       </div>
     </div>
@@ -57,9 +57,9 @@
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header bg-warning bg-gradient">
-              <h5 class="modal-title" id="error-header">
-                Requested page doesn't exit
+            <div class="modal-header">
+              <h5 class="modal-title text-dark" id="error-header">
+                Requested page doesn't exist!
               </h5>
               <button
                 type="button"
