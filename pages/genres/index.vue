@@ -1,7 +1,7 @@
 <template>
   <div
     class="
-      container
+      container-lg
       d-flex
       justify-content-start
       align-items-center
@@ -9,7 +9,7 @@
     "
   >
     <div class="row">
-      <div class="col-12 mt-5 px-5 pt-5 text-center">
+      <div class="col-12 mt-5 px-3 pt-5 text-center">
         <div
           class="badge-cont d-inline-block me-2 mb-2"
           v-for="genre in genres"
@@ -29,24 +29,71 @@
       </div>
     </div>
     <!-- Sort -->
-    <div class="row mt-4 align-self-end">
-      <div class="col-12 select-wrapper">
+    <div class="row mt-4 align-self-start">
+      <!-- <div class="col-12 select-wrapper">
         <select
-          class="text-capitalize select-underline"
+          class="form-select text-capitalize"
           @change="sortMovies"
           v-model="selectedFilter"
+          id="floatingSelect"
         >
           <option
-            v-for="(filter, index) in filterValues"
+            v-for="(filter, index) in sortValues"
             :key="filter"
             :value="filter"
             :selected="index == 0"
           >
             {{ filter.slice(0, -5).replace("_", " ") }}
           </option>
+          <label for="floatingSelect">Sort By</label>
         </select>
+      </div> -->
+
+      <div class="dropdown ps-3">
+        <a
+          class="
+            btn btn-secondary
+            dropdown-toggle
+            rounded-circle
+            d-inline-flex
+            justify-content-center
+            align-items-center
+            filter-size
+            bg-warning
+            border-warning
+          "
+          href="#"
+          role="button"
+          id="dropdownMenuLink"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <span class="material-icons text-dark"> sort </span>
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li>
+            <a
+              class="dropdown-item text-capitalize"
+              href="#"
+              v-for="(sort, index) in sortValues"
+              :key="sort"
+              :value="sort"
+              :selected="index == 0"
+              @click="sortMovies"
+              :data-sort="sort"
+              >{{ sort.slice(0, -5).replace("_", " ") }}</a
+            >
+          </li>
+        </ul>
+        <span class="sort-text text-capitalize">{{
+          sortValueCopy.slice(0, -5).replace("_", " ")
+        }}</span>
       </div>
     </div>
+
+    <!-- sort -->
+
     <div
       class="spinner-grow text-warning m-5"
       :class="{ 'd-none': hide }"
@@ -55,28 +102,43 @@
       <span class="visually-hidden">Loading...</span>
     </div>
     <div
-      class="row text-center mt-2 w-100 g-0"
+      class="
+        row
+        d-flex
+        justify-content-around
+        align-items-stretch
+        w-100
+        text-center
+      "
       :class="{ 'd-none': !hide }"
       v-if="movieList.length"
     >
-      <div class="col-3 p-3" v-for="movie in movieList" :key="movie.id">
+      <div
+        class="col-10 col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-5 p-3"
+        v-for="movie in movieList"
+        :key="movie.id"
+        id="movieColumn"
+      >
         <div class="position-relative">
           <a :href="'/movie/' + movie.id">
             <img
               :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
               :alt="movie.title + ' poster'"
-              class="img-fluid rounded-3"
+              class="img-fluid rounded-3 poster-img"
               v-if="movie.poster"
             />
             <img
               src="~/assets/images/no poster.png"
               :alt="movie.title + ' poster'"
-              class="img-fluid rounded-3"
+              class="img-fluid rounded-3 poster-img"
               v-else
             />
             <div class="overview-container line-clamp">
-              <h5 class="text-center">Overview</h5>
-              {{ movie.overview }}
+              <div class="overview-text">
+                <h5 class="text-center">Overview</h5>
+                <hr class="text-warning" />
+                {{ movie.overview }}
+              </div>
             </div>
           </a>
         </div>
@@ -120,12 +182,8 @@ export default {
       totalPages: null,
       currentPage: 1,
       hide: true,
-      filterValues: [
-        "popularity.desc",
-        "release_date.desc",
-        "vote_average.desc",
-      ],
-      selectedFilter: "popularity.desc",
+      sortValues: ["popularity.desc", "release_date.desc", "vote_average.desc"],
+      sortValueCopy: "popularity.desc",
     };
   },
   methods: {
@@ -188,10 +246,12 @@ export default {
     sortMovies(event) {
       const url = `${this.baseURL}/discover/movie?api_key=${
         this.apiKey
-      }&language=en-US&sort_by=${
-        this.selectedFilter
-      }&include_adult=false&page=1&with_genres=${this.genreSelected.toString()}`;
+      }&language=en-US&sort_by=${event.target.getAttribute(
+        "data-sort"
+      )}&include_adult=false&page=1&with_genres=${this.genreSelected.toString()}`;
       this.fetchMovieByGenres(url);
+
+      this.sortValueCopy = event.target.getAttribute("data-sort");
     },
   },
   mounted() {

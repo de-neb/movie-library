@@ -2,7 +2,7 @@
   <div class="container-fluid mt-3 class mb-4">
     <div
       class="
-        container
+        container-lg
         text-center
         d-flex
         justify-content-center
@@ -22,13 +22,14 @@
         class="row d-flex justify-content-around align-items-stretch w-100"
         :class="{ 'd-none': !hide }"
       >
-        <h1 class="fs-3 mb-5 fw-bold text-start prop-title">
+        <h1 class="fs-3 pt-5 mb-5 fw-bold text-start prop-title">
           {{ $route.params.discoverProp.toUpperCase().replace("_", " ") }}
         </h1>
         <div
-          class="col-3 p-3"
+          class="col-12 col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-5 p-3"
           v-for="movie in discoverMovieCollection"
           :key="movie.id"
+          id="movieColumn"
         >
           <div class="position-relative">
             <a :href="'/movie/' + movie.id">
@@ -36,11 +37,18 @@
                 :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
                 :alt="movie.title + ' poster'"
                 class="img-fluid rounded-3 poster-img"
+                v-if="movie.poster"
+              />
+              <img
+                src="~/assets/images/no poster.png"
+                :alt="movie.title + ' poster'"
+                class="img-fluid rounded-3 poster-img"
+                v-else
               />
               <div class="overview-container line-clamp shadow-lg">
                 <div class="overview-text">
                   <h5 class="text-center">Overview</h5>
-                  <hr class="text-light" />
+                  <hr class="text-warning" />
                   {{ movie.overview }}
                 </div>
               </div>
@@ -126,7 +134,6 @@ export default {
         );
       }
     });
-    console.log("dsicover");
   },
   computed: {
     apiURL() {
