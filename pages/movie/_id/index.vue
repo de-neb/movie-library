@@ -1,87 +1,112 @@
 <template>
-  <div class="container mt-5">
-    <div class="row d-flex align-items-start">
-      <div class="col-8">
-        <div class="row d-flex justify-content-between">
-          <div class="col-10">
-            <h1>{{ movieDetails.title }}</h1>
-            <span class="text-center text-muted"
-              >{{ movieDetails.runtime }} min |
-              {{ movieDetails.releaseDate }}</span
-            >
+  <div>
+    <div class="container-fluid px-0">
+      <div
+        class="
+          row
+          d-flex
+          align-items-start
+          justify-content-center
+          mt-5
+          position-relative
+          parallax
+          p-5
+          mx-0
+        "
+        :style="styleBG"
+      >
+        <div class="col-8 pt-4">
+          <div class="row d-flex justify-content-between">
+            <div class="col-10">
+              <h1 class="text-light fw-bold">{{ movieDetails.title }}</h1>
+              <span class="text-center text-light"
+                >{{ movieDetails.runtime }} min |
+                {{ movieDetails.releaseDate }}</span
+              >
+            </div>
+            <div class="col-2">
+              <h2
+                class="
+                  d-flex
+                  justify-content-center
+                  align-items-baseline
+                  text-light
+                "
+              >
+                <span
+                  class="material-icons text-warning fs-1 m-0 align-self-end"
+                >
+                  star
+                </span>
+                {{ movieDetails.voteAvg
+                }}<span class="fs-6 text-light">/10</span>
+              </h2>
+              <span class="d-block text-light text-end"
+                >{{ movieDetails.voteCount }} votes</span
+              >
+            </div>
           </div>
-          <div class="col-2">
-            <h2 class="d-flex justify-content-center align-items-baseline">
-              <span class="material-icons text-warning fs-1 m-0 align-self-end">
-                star
-              </span>
-              {{ movieDetails.voteAvg }}<span class="fs-6 text-muted">/10</span>
-            </h2>
-            <span class="d-block text-muted text-end"
-              >{{ movieDetails.voteCount }} votes</span
-            >
+          <div class="ratio ratio-16x9 mt-3">
+            <h3></h3>
+            <iframe
+              width="560"
+              height="315"
+              :src="'https://www.youtube.com/embed/' + youtubeKey"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
           </div>
         </div>
-        <div class="ratio ratio-16x9 mt-3">
-          <h3></h3>
-          <iframe
-            width="560"
-            height="315"
-            :src="'https://www.youtube.com/embed/' + youtubeKey"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
-      </div>
-      <div class="col-4">
-        <h2>Overview</h2>
-        <p>
-          {{ movieDetails.overview }}
-        </p>
-
-        <div class="d-flex align-items-center mb-3">
-          <h5 class="d-inline me-2 mb-0">Genres</h5>
-          <span
-            class="badge rounded-pill bg-secondary me-2"
-            v-for="genre in movieDetails.genres"
-            :key="genre.id"
+        <div class="col-4 pt-4">
+          <h2 class="text-light">Overview</h2>
+          <p class="text-light">
+            {{ movieDetails.overview }}
+          </p>
+          <div class="d-flex align-items-center mb-3">
+            <h5 class="d-inline me-2 mb-0 text-light">Genres</h5>
+            <span
+              class="badge rounded-pill bg-secondary me-2"
+              v-for="genre in movieDetails.genres"
+              :key="genre.id"
+            >
+              {{ genre.name }}
+            </span>
+          </div>
+          <a
+            :href="movieDetails.website"
+            target="_blank"
+            class="
+              btn btn-warning
+              d-flex
+              align-items-center
+              justify-content-center
+              rounded-3
+            "
+            ><span class="material-icons"> open_in_new </span> Website</a
           >
-            {{ genre.name }}
-          </span>
         </div>
-
-        <a
-          :href="movieDetails.website"
-          target="_blank"
-          class="
-            btn btn-warning
-            d-flex
-            align-items-center
-            justify-content-center
-            rounded-3
-          "
-          ><span class="material-icons"> open_in_new </span> Website</a
-        >
       </div>
+      <hr />
     </div>
-    <hr />
-    <div class="row my-3">
-      <div class="col-6 d-flex justify-content-end">
-        <Carousel :movie-id="movieId" />
+    <div class="container-lg">
+      <div class="row my-3">
+        <div class="col-6 d-flex justify-content-end">
+          <Carousel :movie-id="movieId" />
+        </div>
       </div>
-    </div>
-    <hr />
-    <div class="row my-3">
-      <div class="col-12">
-        <Credits :movie-id="movieId" />
+      <hr />
+      <div class="row my-3">
+        <div class="col-12">
+          <Credits :movie-id="movieId" />
+        </div>
       </div>
-    </div>
-    <hr />
-    <div class="row mt-3 mb-5">
-      <div class="col-12">
-        <Recommendations :movie-id="movieId" :title="'Recommendations'" />
+      <hr />
+      <div class="row mt-3 mb-5">
+        <div class="col-12">
+          <Recommendations :movie-id="movieId" :title="'Recommendations'" />
+        </div>
       </div>
     </div>
   </div>
@@ -115,6 +140,7 @@ export default {
         const response = await fetch(url);
         const data = await response.json();
         this.movieDetails = {
+          backdrop: data.backdrop_path,
           genres: data.genres,
           voteAvg: data.vote_average,
           voteCount: data.vote_count,
@@ -138,6 +164,17 @@ export default {
   mounted() {
     this.fetchTrailer();
     this.fetchmovieDetails();
+  },
+  computed: {
+    styleBG() {
+      return {
+        "background-image":
+          "linear-gradient(-45deg, rgba(253,185,60,1) 0%, rgba(33,37,41,1) 69%)," +
+          "url(" +
+          `https://image.tmdb.org/t/p/original${this.movieDetails.backdrop}` +
+          ")",
+      };
+    },
   },
 };
 </script>

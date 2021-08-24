@@ -125,6 +125,7 @@ export default {
       this.hide = true;
     },
   },
+
   mounted() {
     //fetch popular movies
     this.props.forEach((prop) => {
@@ -134,6 +135,7 @@ export default {
         );
       }
     });
+    console.log(this.$route);
   },
   computed: {
     apiURL() {

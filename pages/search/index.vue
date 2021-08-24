@@ -2,7 +2,7 @@
   <div class="container-fluid mt-3 class mb-4">
     <div
       class="
-        container
+        container-lg
         text-center
         d-flex
         justify-content-center
@@ -22,10 +22,17 @@
         class="row d-flex justify-content-start align-items-stretch w-100"
         :class="{ 'd-none': !hide }"
       >
-        <h1 class="fs-3 mb-5 fw-bold text-start prop-title prop-title mt-5">
+        <h1
+          class="fs-3 mb-5 fw-bold text-start prop-title prop-title mt-5 pt-5"
+        >
           RESULTS FOR "{{ $route.query.value }}"
         </h1>
-        <div class="col-3 p-3" v-for="movie in searchedResults" :key="movie.id">
+        <div
+          class="col-12 col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-5 p-3"
+          id="movieColumn"
+          v-for="movie in searchedResults"
+          :key="movie.id"
+        >
           <div class="position-relative">
             <a :href="'/movie/' + movie.id">
               <img
@@ -40,7 +47,7 @@
                 class="img-fluid rounded-3 poster-img"
                 v-else
               />
-              <div class="overview-container line-clamp">
+              <div class="overview-container line-clamp shadow-lg">
                 <div class="overview-text">
                   <h5 class="text-center">Overview</h5>
                   <hr class="text-warning" />

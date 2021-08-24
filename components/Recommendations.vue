@@ -2,17 +2,32 @@
   <div>
     <h2 ref="recommendations">{{ title }}</h2>
     <div class="row text-center">
-      <div class="col-3 p-3" v-for="movie in recoList" :key="movie.id">
+      <div
+        class="col-12 col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-5 p-3"
+        id="movieColumn"
+        v-for="movie in recoList"
+        :key="movie.id"
+      >
         <div class="position-relative">
           <a :href="'/movie/' + movie.id">
             <img
               :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
               :alt="movie.title + ' poster'"
-              class="img-fluid rounded-3"
+              class="img-fluid rounded-3 poster-img"
+              v-if="movie.poster"
             />
-            <div class="overview-container line-clamp">
-              <h5 class="text-center">Overview</h5>
-              {{ movie.overview }}
+            <img
+              src="~/assets/images/no poster.png"
+              :alt="movie.title + ' poster'"
+              class="img-fluid rounded-3 poster-img"
+              v-else
+            />
+            <div class="overview-container line-clamp shadow-lg">
+              <div class="overview-text">
+                <h5 class="text-center">Overview</h5>
+                <hr class="text-warning" />
+                {{ movie.overview }}
+              </div>
             </div>
           </a>
         </div>
