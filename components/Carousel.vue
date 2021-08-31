@@ -1,51 +1,96 @@
 <template>
   <div>
-    <h2>Photos</h2>
     <div
-      id="carouselExampleIndicators"
-      class="carousel slide mb-5"
-      data-bs-ride="carousel"
+      class="modal fade"
+      id="photosModal"
+      ref="modal"
+      tabindex="-1"
+      aria-labelledby="photosModalLabel"
+      aria-hidden="true"
     >
-      <div class="carousel-indicators">
-        <button
-          v-for="(path, index) in backdropPaths"
-          :key="index"
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          :data-bs-slide-to="index"
-          :class="{ active: index === 0 }"
-          :aria-current="index === 0"
-          :aria-label="'Slide' + (1 + 1)"
-        ></button>
-      </div>
-      <div class="carousel-inner">
-        <div
-          class="carousel-item"
-          :class="{ active: index === 0 }"
-          v-for="(path, index) in backdropPaths"
-          :key="path"
-        >
-          <img :src="imgURL + path" class="d-block w-100" alt="backdrop" />
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+          <div class="modal-body bg-dark p-1">
+            <div
+              id="carouselPhotos"
+              class="carousel slide"
+              data-bs-interval="false"
+              ref="carousel"
+            >
+              <div class="carousel-indicators">
+                <button
+                  v-for="(path, index) in backdropPaths"
+                  :key="index"
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  :data-bs-slide-to="index"
+                  :aria-current="index === 0"
+                  class="indicator"
+                  :aria-label="'Slide' + (1 + 1)"
+                  :id="'button-' + index"
+                ></button>
+              </div>
+              <div class="carousel-inner">
+                <div
+                  class="carousel-item"
+                  v-for="(path, index) in backdropPaths"
+                  :key="path"
+                  :id="'slide-' + index"
+                >
+                  <img
+                    :src="imgOriginal + path"
+                    class="d-block w-100"
+                    alt="backdrop"
+                  />
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselPhotos"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselPhotos"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="prev"
+    </div>
+
+    <h2>Photos</h2>
+
+    <div class="pic-collection container-md">
+      <a
+        href="#"
+        data-bs-toggle="modal"
+        data-bs-target="#photosModal"
+        v-for="(path, index) in backdropPaths"
+        :key="path"
       >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+        <img
+          :src="imgThumbnail + path"
+          class="rounded-3 shadow pe-3"
+          alt="backdrop"
+          @click="getSelectedPic(index)"
+        />
+      </a>
     </div>
   </div>
 </template>
@@ -57,7 +102,8 @@ export default {
     return {
       apiKey: process.env.API_KEY,
       baseURL: "https://api.themoviedb.org/3/movie",
-      imgURL: "https://image.tmdb.org/t/p/w1280",
+      imgThumbnail: "https://image.tmdb.org/t/p/w300",
+      imgOriginal: "https://image.tmdb.org/t/p/w1280",
       backdropPaths: [],
     };
   },
@@ -73,6 +119,23 @@ export default {
       } catch (error) {
         console.log("error while fetching images", error);
       }
+    },
+    getSelectedPic(index) {
+      const modal = this.$refs.modal;
+      const activeSl = document.getElementById(`slide-${index}`);
+      const activeBtn = document.getElementById(`button-${index}`);
+      const btnList = document.querySelectorAll(".indicator");
+      const itemList = document.querySelectorAll(".carousel-item");
+
+      //set the selected pic as the active item in the carousel
+      activeSl.classList.add("active");
+      activeBtn.classList.add("active");
+
+      //remove the active class from the previous active when closing the modal
+      modal.addEventListener("hide.bs.modal", function (ev) {
+        btnList.forEach((btn) => btn.classList.remove("active"));
+        itemList.forEach((item) => item.classList.remove("active"));
+      });
     },
   },
   mounted() {

@@ -27,7 +27,7 @@
 
       <!-- search bar -->
       <div class="d-flex w-25 form-control rounded-pill order-5">
-        <span class="material-icons text-light"> search </span>
+        <span class="material-icons text-warning"> search </span>
         <input
           type="text"
           id="search"

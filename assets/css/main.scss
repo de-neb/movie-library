@@ -6,6 +6,12 @@ body {
   background-color: #eeeeee;
 }
 
+.g-center {
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
 .link-hover:hover {
   color: #fdb93c !important;
 }
@@ -151,20 +157,22 @@ input[type="search"]:focus {
 }
 
 input#search {
-  border: none;
-  outline: none;
+  border: none !important;
+  outline: none !important;
   width: 100%;
   background: none;
   color: #fff;
 }
 
-.form-control {
-  background: none;
-  border-radius: 0;
-  border: 3px double #fdb827 !important;
-  border-radius: 5px;
+::placeholder {
+  color: #fdb827;
 }
 
+.form-control {
+  background: #6c757d;
+  border: none !important;
+  outline: none !important;
+}
 .spinner-grow {
   width: 5rem;
   height: 5rem;
@@ -201,14 +209,67 @@ input#search {
 // background
 
 .parallax {
-  width: 100%;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 550px;
   background-attachment: fixed;
-  background-position: center;
+  background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
   background-blend-mode: multiply;
   z-index: 1;
+  transform: translate(0, -15%);
+  &::after {
+    backdrop-filter: blur(3px);
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: -1;
+  }
 }
+
+.box-margin {
+  min-height: 550px !important;
+  z-index: 1;
+  .poster-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: max-content;
+
+    & + div.container {
+      position: absolute;
+      bottom: 70px;
+      width: max-content;
+      left: 200px;
+      // margin: 0 0 10px 200px;
+    }
+  }
+}
+
+.pic-collection {
+  width: 100%;
+  height: 250px !important;
+  overflow-x: scroll;
+  white-space: nowrap;
+  display: flex;
+  place-items: center;
+
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #a5b8c8;
+    border-radius: 5px;
+  }
+}
+
+//scrollbar

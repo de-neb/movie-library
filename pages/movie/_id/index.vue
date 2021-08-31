@@ -1,112 +1,123 @@
 <template>
-  <div>
-    <div class="container-fluid px-0">
-      <div
-        class="
-          row
-          d-flex
-          align-items-start
-          justify-content-center
-          mt-5
-          position-relative
-          parallax
-          p-5
-          mx-0
-        "
-        :style="styleBG"
-      >
-        <div class="col-8 pt-4">
-          <div class="row d-flex justify-content-between">
-            <div class="col-10">
-              <h1 class="text-light fw-bold">{{ movieDetails.title }}</h1>
-              <span class="text-center text-light"
-                >{{ movieDetails.runtime }} min |
-                {{ movieDetails.releaseDate }}</span
-              >
-            </div>
-            <div class="col-2">
-              <h2
-                class="
-                  d-flex
-                  justify-content-center
-                  align-items-baseline
-                  text-light
-                "
-              >
-                <span
-                  class="material-icons text-warning fs-1 m-0 align-self-end"
-                >
-                  star
-                </span>
-                {{ movieDetails.voteAvg
-                }}<span class="fs-6 text-light">/10</span>
-              </h2>
-              <span class="d-block text-light text-end"
-                >{{ movieDetails.voteCount }} votes</span
-              >
+  <div class="container-fluid px-0">
+    <!-- Trailer modal -->
+
+    <div
+      class="modal fade"
+      id="trailerModal"
+      tabindex="-1"
+      aria-labelledby="trailerModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-body bg-dark p-2">
+            <div class="ratio ratio-16x9">
+              <iframe
+                width="560"
+                height="315"
+                :src="'https://www.youtube.com/embed/' + youtubeKey"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
-          <div class="ratio ratio-16x9 mt-3">
-            <h3></h3>
-            <iframe
-              width="560"
-              height="315"
-              :src="'https://www.youtube.com/embed/' + youtubeKey"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
-        <div class="col-4 pt-4">
-          <h2 class="text-light">Overview</h2>
-          <p class="text-light">
-            {{ movieDetails.overview }}
-          </p>
-          <div class="d-flex align-items-center mb-3">
-            <h5 class="d-inline me-2 mb-0 text-light">Genres</h5>
-            <span
-              class="badge rounded-pill bg-secondary me-2"
-              v-for="genre in movieDetails.genres"
-              :key="genre.id"
-            >
-              {{ genre.name }}
-            </span>
-          </div>
-          <a
-            :href="movieDetails.website"
-            target="_blank"
-            class="
-              btn btn-warning
-              d-flex
-              align-items-center
-              justify-content-center
-              rounded-3
-            "
-            ><span class="material-icons"> open_in_new </span> Website</a
-          >
         </div>
       </div>
-      <hr />
     </div>
-    <div class="container-lg">
-      <div class="row my-3">
-        <div class="col-6 d-flex justify-content-end">
-          <Carousel :movie-id="movieId" />
+
+    <!-- Trailer modal end   -->
+
+    <div
+      class="
+        d-flex
+        align-items-start
+        justify-content-center
+        mt-5
+        position-relative
+        parallax
+        p-5
+        mx-0
+      "
+      :style="styleBG"
+    >
+      <div class="container-lg position-relative box-margin mx-0">
+        <div class="poster-container">
+          <img
+            :src="'https://image.tmdb.org/t/p/w200' + movieDetails.poster"
+            :alt="movieDetails.title + '-poster'"
+            class="rounded-3 shadow-lg"
+          />
         </div>
+        <div class="container d-inline">
+          <h1 class="text-light fw-bolder fs-1">
+            {{ movieDetails.title }}
+          </h1>
+          <div class="row d-flex">
+            <div class="col-10 order-2">
+              <span class="text-center text-light"
+                >{{ movieDetails.runtime }} min | {{ movieDetails.releaseDate }}
+              </span>
+              <div class="genre">
+                <span
+                  class="text-center badge rounded-pill bg-dark text-light me-2"
+                  v-for="genre in movieDetails.genres"
+                  :key="genre.id"
+                >
+                  {{ genre.name }}
+                </span>
+              </div>
+            </div>
+            <div class="col-2 order-1">
+              <div class="circle-badge bg-dark text-light g-center">
+                <h3 class="m-0">
+                  {{ movieDetails.voteAvg }}
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="d-grid gap-2 d-md-block">
+              <button
+                type="button"
+                class="btn btn-outline-light g-center rounded-pill"
+                data-bs-toggle="modal"
+                data-bs-target="#trailerModal"
+              >
+                <span class="material-icons"> play_arrow </span>Trailer
+              </button>
+              <a
+                :href="movieDetails.website"
+                target="_blank"
+                class="btn btn-outline-light g-center rounded-pill"
+                ><span class="material-icons"> open_in_new </span> Website</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg">
+      <div class="row">
+        <h2>Overview</h2>
+        <p>
+          {{ movieDetails.overview }}
+        </p>
+      </div>
+      <div class="row my-3">
+        <hr />
+        <Carousel :movie-id="movieId" />
       </div>
       <hr />
       <div class="row my-3">
-        <div class="col-12">
-          <Credits :movie-id="movieId" />
-        </div>
+        <Credits :movie-id="movieId" />
       </div>
       <hr />
       <div class="row mt-3 mb-5">
-        <div class="col-12">
-          <Recommendations :movie-id="movieId" :title="'Recommendations'" />
-        </div>
+        <Recommendations :movie-id="movieId" :title="'Recommendations'" />
       </div>
     </div>
   </div>
@@ -141,6 +152,7 @@ export default {
         const data = await response.json();
         this.movieDetails = {
           backdrop: data.backdrop_path,
+          poster: data.poster_path,
           genres: data.genres,
           voteAvg: data.vote_average,
           voteCount: data.vote_count,
@@ -169,7 +181,7 @@ export default {
     styleBG() {
       return {
         "background-image":
-          "linear-gradient(-45deg, rgba(253,185,60,1) 0%, rgba(33,37,41,1) 69%)," +
+          "linear-gradient(0deg, rgba(253,185,60,1) 14%, rgba(0,0,0,1) 100%)," +
           "url(" +
           `https://image.tmdb.org/t/p/original${this.movieDetails.backdrop}` +
           ")",
@@ -179,8 +191,17 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .video-size {
   width: 800px;
+}
+.circle-badge {
+  height: 55px;
+  width: 55px !important;
+  border-radius: 50px;
+  display: inline-grid;
+  place-items: center;
+  border: 3px solid #fdb93c;
+  box-shadow: 0 0 0 4px #212529;
 }
 </style>
