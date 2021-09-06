@@ -76,21 +76,33 @@
 
     <h2>Photos</h2>
 
-    <div class="pic-collection container-md">
-      <a
-        href="#"
-        data-bs-toggle="modal"
-        data-bs-target="#photosModal"
-        v-for="(path, index) in backdropPaths"
-        :key="path"
-      >
-        <img
-          :src="imgThumbnail + path"
-          class="rounded-3 shadow pe-3"
-          alt="backdrop"
-          @click="getSelectedPic(index)"
-        />
-      </a>
+    <div class="pic-main-container">
+      <div class="pic-collection-wrapper">
+        <div class="pic-collection container-md" ref="pic-collection">
+          <button class="scroll-np top-0 start-0" @click="scrollLeft">
+            <span class="material-icons fs-2 text-light"> arrow_back_ios </span>
+          </button>
+          <a
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#photosModal"
+            v-for="(path, index) in backdropPaths"
+            :key="path"
+          >
+            <img
+              :src="imgThumbnail + path"
+              class="rounded-3 shadow pe-3"
+              alt="backdrop"
+              @click="getSelectedPic(index)"
+            />
+          </a>
+          <button class="scroll-np top-0 end-0" @click="scrollRight">
+            <span class="material-icons fs-2 text-light">
+              arrow_forward_ios
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -136,6 +148,15 @@ export default {
         btnList.forEach((btn) => btn.classList.remove("active"));
         itemList.forEach((item) => item.classList.remove("active"));
       });
+    },
+    scrollRight() {
+      const picCollection = this.$refs["pic-collection"];
+      picCollection.scrollLeft += 1000;
+      console.log("scrolling!");
+    },
+    scrollLeft() {
+      const picCollection = this.$refs["pic-collection"];
+      picCollection.scrollLeft -= 1000;
     },
   },
   mounted() {

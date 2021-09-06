@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Credits</h2>
-    <div class="accordion" id="accordionExample">
+    <!-- <div class="accordion" id="accordionExample">
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
           <button
@@ -95,6 +95,51 @@
           </div>
         </div>
       </div>
+    </div> -->
+
+    <!-- testing -->
+
+    <div class="pic-main-container h-300">
+      <div class="pic-collection-wrapper">
+        <div class="pic-collection container-md" ref="cast-collection">
+          <button class="scroll-np top-0 start-0" @click="scrollLeft">
+            <span class="material-icons fs-2 text-light"> arrow_back_ios </span>
+          </button>
+          <div
+            class="card card-width g-center me-3"
+            v-for="person in cast"
+            :key="person.id"
+          >
+            <img
+              :src="imgURL + person.profile_path"
+              class="card-img-top w-100"
+              :alt="person.name + '-thumbnail'"
+              v-if="person.profile_path"
+            />
+            <img
+              src="~/assets/images/profile.png"
+              :alt="person.name + '-thumbnail'"
+              class="img-fluid poster-img"
+              v-else
+            />
+
+            <div class="card-body p-0 text-center">
+              <h6 class="card-text mt-2 pt-1 mx-0 mb-0 fw-bold">
+                {{ person.name }}
+              </h6>
+              <span class="text-secondary">
+                {{ person.character }}
+              </span>
+            </div>
+          </div>
+
+          <button class="scroll-np top-0 end-0" @click="scrollRight">
+            <span class="material-icons fs-2 text-light">
+              arrow_forward_ios
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -122,6 +167,16 @@ export default {
       } catch (error) {
         console.log("error while fetching credits ", error);
       }
+      console.log("len", this.cast);
+    },
+    scrollRight() {
+      const castCollection = this.$refs["cast-collection"];
+      castCollection.scrollLeft += 1000;
+      console.log("scrolling!");
+    },
+    scrollLeft() {
+      const castCollection = this.$refs["cast-collection"];
+      castCollection.scrollLeft -= 1000;
     },
   },
   mounted() {

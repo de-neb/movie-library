@@ -49,18 +49,25 @@
             :src="'https://image.tmdb.org/t/p/w200' + movieDetails.poster"
             :alt="movieDetails.title + '-poster'"
             class="rounded-3 shadow-lg"
+            v-if="movieDetails.poster"
           />
+          <!-- <img
+            src="~/assets/images/no poster.png"
+            :alt="movieDetails.title + ' poster'"
+            class="img-fluid rounded-3 poster-img w-200"
+            v-else
+          /> -->
         </div>
         <div class="container d-inline">
           <h1 class="text-light fw-bolder fs-1">
             {{ movieDetails.title }}
           </h1>
           <div class="row d-flex">
-            <div class="col-10 order-2">
+            <div class="col-10 order-1">
               <span class="text-center text-light"
                 >{{ movieDetails.runtime }} min | {{ movieDetails.releaseDate }}
               </span>
-              <div class="genre">
+              <div class="genre mt-1">
                 <span
                   class="text-center badge rounded-pill bg-dark text-light me-2"
                   v-for="genre in movieDetails.genres"
@@ -70,19 +77,15 @@
                 </span>
               </div>
             </div>
-            <div class="col-2 order-1">
-              <div class="circle-badge bg-dark text-light g-center">
-                <h3 class="m-0">
-                  {{ movieDetails.voteAvg }}
-                </h3>
-              </div>
+            <div class="col-12 order-2 mt-1">
+              <Rating :rating="movieDetails.voteAvg" />
             </div>
           </div>
-          <div class="row mt-4">
-            <div class="d-grid gap-2 d-md-block">
+          <div class="row mt-1">
+            <div class="d-grid d-md-block">
               <button
                 type="button"
-                class="btn btn-outline-light g-center rounded-pill"
+                class="btn btn-outline-light g-center rounded-pill me-2"
                 data-bs-toggle="modal"
                 data-bs-target="#trailerModal"
               >

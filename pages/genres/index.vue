@@ -30,25 +30,6 @@
     </div>
     <!-- Sort -->
     <div class="row mt-4 align-self-start">
-      <!-- <div class="col-12 select-wrapper">
-        <select
-          class="form-select text-capitalize"
-          @change="sortMovies"
-          v-model="selectedFilter"
-          id="floatingSelect"
-        >
-          <option
-            v-for="(filter, index) in sortValues"
-            :key="filter"
-            :value="filter"
-            :selected="index == 0"
-          >
-            {{ filter.slice(0, -5).replace("_", " ") }}
-          </option>
-          <label for="floatingSelect">Sort By</label>
-        </select>
-      </div> -->
-
       <div class="dropdown ps-3">
         <a
           class="
@@ -105,7 +86,7 @@
       class="
         row
         d-flex
-        justify-content-around
+        justify-content-start
         align-items-stretch
         w-100
         text-center
