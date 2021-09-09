@@ -88,34 +88,22 @@
               <Rating :rating="movieDetails.voteAvg" />
             </div>
           </div>
-          <div
-            class="
-              row
-              mt-1
-              mb-3
-              d-flex
-              gap-4
-              justify-content-md-start justify-content-center
-            "
-          >
-            <div class="col-3 col-xl-1 col-lg-1 col-md-2 p-0">
-              <button
-                type="button"
-                class="btn btn-outline-light g-center rounded-pill"
-                data-bs-toggle="modal"
-                data-bs-target="#trailerModal"
-              >
-                <span class="material-icons"> play_arrow </span>Trailer
-              </button>
-            </div>
-            <div class="col-3 col-xl-2 col-lg-2 col-md-3 p-0">
-              <a
-                :href="movieDetails.website"
-                target="_blank"
-                class="btn btn-outline-light g-center rounded-pill"
-                ><span class="material-icons"> open_in_new </span> Website</a
-              >
-            </div>
+
+          <div class="d-grid gap-2 d-md-block mb-md-4 col-6 mx-md-0 mx-auto">
+            <button
+              type="button"
+              class="btn btn-outline-light g-center rounded-pill btn-sm d-block"
+              data-bs-toggle="modal"
+              data-bs-target="#trailerModal"
+            >
+              <span class="material-icons"> play_arrow </span>Trailer
+            </button>
+            <a
+              :href="movieDetails.website"
+              target="_blank"
+              class="btn btn-outline-light g-center rounded-pill btn-sm"
+              ><span class="material-icons"> open_in_new </span> Website</a
+            >
           </div>
         </div>
       </div>
