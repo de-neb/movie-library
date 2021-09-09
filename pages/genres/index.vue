@@ -86,7 +86,7 @@
       class="
         row
         d-flex
-        justify-content-start
+        justify-content-md-start justify-content-center
         align-items-stretch
         w-100
         text-center
@@ -95,7 +95,7 @@
       v-if="movieList.length"
     >
       <div
-        class="col-10 col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-5 p-3"
+        class="col-10 col-md-3 col-sm-4 p-3"
         v-for="movie in movieList"
         :key="movie.id"
         id="movieColumn"

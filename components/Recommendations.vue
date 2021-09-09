@@ -3,7 +3,7 @@
     <h2 ref="recommendations">{{ title }}</h2>
     <div class="row text-center">
       <div
-        class="col-12 col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-5 p-3"
+        class="col-6 col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-4 p-3"
         id="movieColumn"
         v-for="movie in recoList"
         :key="movie.id"

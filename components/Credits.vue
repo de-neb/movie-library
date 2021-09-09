@@ -99,45 +99,135 @@
 
     <!-- testing -->
 
-    <div class="pic-main-container h-300">
-      <div class="pic-collection-wrapper">
-        <div class="pic-collection container-md" ref="cast-collection">
-          <button class="scroll-np top-0 start-0" @click="scrollLeft">
-            <span class="material-icons fs-2 text-light"> arrow_back_ios </span>
-          </button>
-          <div
-            class="card card-width g-center me-3"
-            v-for="person in cast"
-            :key="person.id"
-          >
-            <img
-              :src="imgURL + person.profile_path"
-              class="card-img-top w-100"
-              :alt="person.name + '-thumbnail'"
-              v-if="person.profile_path"
-            />
-            <img
-              src="~/assets/images/profile.png"
-              :alt="person.name + '-thumbnail'"
-              class="img-fluid poster-img"
-              v-else
-            />
+    <nav>
+      <div class="nav nav-tabs text-dark" id="nav-tab" role="tablist">
+        <button
+          class="nav-link active tab-bg me-1"
+          id="cast-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#nav-cast"
+          type="button"
+          role="tab"
+          aria-controls="nav-cast"
+          aria-selected="true"
+        >
+          Cast
+        </button>
+        <button
+          class="nav-link tab-bg"
+          id="crew-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#nav-crew"
+          type="button"
+          role="tab"
+          aria-controls="nav-crew"
+          aria-selected="false"
+        >
+          Crew
+        </button>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div
+        class="tab-pane fade show active"
+        id="nav-cast"
+        role="tabpanel"
+        aria-labelledby="nav-home-tab"
+      >
+        <div class="pic-main-container h-300">
+          <div class="pic-collection-wrapper">
+            <div class="pic-collection container-md" ref="cast-collection">
+              <button class="scroll-np top-0 start-0" @click="scrollLeft">
+                <span class="material-icons fs-2 text-light">
+                  arrow_back_ios
+                </span>
+              </button>
+              <div
+                class="card card-width g-center me-3"
+                v-for="person in cast"
+                :key="person.id"
+              >
+                <img
+                  :src="imgURL + person.profile_path"
+                  class="card-img-top w-100"
+                  :alt="person.name + '-thumbnail'"
+                  v-if="person.profile_path"
+                />
+                <img
+                  src="~/assets/images/profile.png"
+                  :alt="person.name + '-thumbnail'"
+                  class="img-fluid poster-img"
+                  v-else
+                />
 
-            <div class="card-body p-0 text-center">
-              <h6 class="card-text mt-2 pt-1 mx-0 mb-0 fw-bold">
-                {{ person.name }}
-              </h6>
-              <span class="text-secondary">
-                {{ person.character }}
-              </span>
+                <div class="card-body p-0 text-center">
+                  <h6 class="card-text mt-2 pt-1 mx-0 mb-0 fw-bold">
+                    {{ person.name }}
+                  </h6>
+                  <span class="text-secondary">
+                    {{ person.character }}
+                  </span>
+                </div>
+              </div>
+
+              <button class="scroll-np top-0 end-0" @click="scrollRight">
+                <span class="material-icons fs-2 text-light">
+                  arrow_forward_ios
+                </span>
+              </button>
             </div>
           </div>
+        </div>
+      </div>
+      <div
+        class="tab-pane fade"
+        id="nav-crew"
+        role="tabpanel"
+        aria-labelledby="nav-profile-tab"
+      >
+        <div class="pic-main-container h-300">
+          <div class="pic-collection-wrapper">
+            <div class="pic-collection container-md" ref="crew-collection">
+              <button class="scroll-np top-0 start-0" @click="scrollLeft">
+                <span class="material-icons fs-2 text-light">
+                  arrow_back_ios
+                </span>
+              </button>
+              <div
+                class="card card-width g-center me-3"
+                v-for="person in crew"
+                :key="person.id + '-' + person.job"
+              >
+                <img
+                  :src="imgURL + person.profile_path"
+                  class="card-img-top w-100"
+                  :alt="person.name + '-thumbnail'"
+                  v-if="person.profile_path"
+                />
+                <img
+                  src="~/assets/images/profile.png"
+                  :alt="person.name + '-thumbnail'"
+                  class="img-fluid poster-img"
+                  v-else
+                />
 
-          <button class="scroll-np top-0 end-0" @click="scrollRight">
-            <span class="material-icons fs-2 text-light">
-              arrow_forward_ios
-            </span>
-          </button>
+                <div class="card-body p-0 text-center">
+                  <h6 class="card-text mt-2 pt-1 mx-0 mb-0 fw-bold">
+                    {{ person.name }}
+                  </h6>
+                  <span class="text-secondary">
+                    {{ person.job }}
+                  </span>
+                </div>
+              </div>
+
+              <button class="scroll-np top-0 end-0" @click="scrollRight">
+                <span class="material-icons fs-2 text-light">
+                  arrow_forward_ios
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -167,16 +257,18 @@ export default {
       } catch (error) {
         console.log("error while fetching credits ", error);
       }
-      console.log("len", this.cast);
     },
     scrollRight() {
       const castCollection = this.$refs["cast-collection"];
+      const crewCollection = this.$refs["crew-collection"];
       castCollection.scrollLeft += 1000;
-      console.log("scrolling!");
+      crewCollection.scrollLeft += 1000;
     },
     scrollLeft() {
       const castCollection = this.$refs["cast-collection"];
+      const crewCollection = this.$refs["crew-collection"];
       castCollection.scrollLeft -= 1000;
+      crewCollection.scrollLeft -= 1000;
     },
   },
   mounted() {
@@ -185,17 +277,5 @@ export default {
 };
 </script>
 
-<style>
-.thumbnail {
-  width: 50px;
-}
-tr td:first-child {
-  width: 50px !important;
-  text-align: center;
-}
-
-tr td {
-  padding: 0 !important;
-  margin-top: auto !important;
-}
+<style scoped>
 </style>

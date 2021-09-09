@@ -232,20 +232,26 @@ input#search {
 }
 
 .box-margin {
-  min-height: 550px !important;
+  height: 550px !important;
   z-index: 1;
-  .poster-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: max-content;
+}
 
-    & + div.container {
-      position: absolute;
-      bottom: 70px;
-      width: max-content;
-      left: 200px;
-      // margin: 0 0 10px 200px;
+@media (max-width: 770px) {
+  .parallax {
+    height: 700px;
+    transform: translate(0, -5%);
+  }
+
+  .box-margin {
+    margin-top: 50px;
+    .poster-container {
+      img {
+        width: 180px !important;
+      }
+      & + div.container {
+        margin: 20px 0 0 0 !important;
+        text-align: center;
+      }
     }
   }
 }
@@ -325,4 +331,15 @@ span.stars {
 
 .h-300 {
   height: 320px !important;
+}
+
+//credits
+#nav-tab {
+  button.tab-bg {
+    background: #d5daeb;
+    color: #41444b !important;
+  }
+  .active {
+    background: #fff !important;
+  }
 }

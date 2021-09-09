@@ -35,34 +35,41 @@
         d-flex
         align-items-start
         justify-content-center
-        mt-5
+        mt-sm-5 mt-2
         position-relative
         parallax
-        p-5
+        py-5
         mx-0
       "
       :style="styleBG"
     >
-      <div class="container-lg position-relative box-margin mx-0">
-        <div class="poster-container">
+      <div
+        class="
+          container-md
+          position-relative
+          d-flex
+          justify-content-center
+          align-items-md-end
+          box-margin
+          flex-md-row flex-column
+          align-items-sm-center
+          pt-md-3 pt-1
+        "
+      >
+        <div class="poster-container d-flex justify-content-center">
           <img
             :src="'https://image.tmdb.org/t/p/w200' + movieDetails.poster"
             :alt="movieDetails.title + '-poster'"
             class="rounded-3 shadow-lg"
-            v-if="movieDetails.poster"
           />
-          <!-- <img
-            src="~/assets/images/no poster.png"
-            :alt="movieDetails.title + ' poster'"
-            class="img-fluid rounded-3 poster-img w-200"
-            v-else
-          /> -->
         </div>
-        <div class="container d-inline">
+        <div class="container d-inline mb-5 ms-2">
           <h1 class="text-light fw-bolder fs-1">
             {{ movieDetails.title }}
           </h1>
-          <div class="row d-flex">
+          <div
+            class="row d-flex justify-content-md-start justify-content-center"
+          >
             <div class="col-10 order-1">
               <span class="text-center text-light"
                 >{{ movieDetails.runtime }} min | {{ movieDetails.releaseDate }}
@@ -81,16 +88,27 @@
               <Rating :rating="movieDetails.voteAvg" />
             </div>
           </div>
-          <div class="row mt-1">
-            <div class="d-grid d-md-block">
+          <div
+            class="
+              row
+              mt-1
+              mb-3
+              d-flex
+              gap-3
+              justify-content-md-start justify-content-center
+            "
+          >
+            <div class="col-3 col-xl-1 col-lg-1 col-md-2 p-0">
               <button
                 type="button"
-                class="btn btn-outline-light g-center rounded-pill me-2"
+                class="btn btn-outline-light g-center rounded-pill"
                 data-bs-toggle="modal"
                 data-bs-target="#trailerModal"
               >
                 <span class="material-icons"> play_arrow </span>Trailer
               </button>
+            </div>
+            <div class="col-3 col-xl-2 col-lg-2 col-md-3 p-0">
               <a
                 :href="movieDetails.website"
                 target="_blank"
@@ -103,7 +121,7 @@
       </div>
     </div>
 
-    <div class="container-lg">
+    <div class="container-md">
       <div class="row">
         <h2>Overview</h2>
         <p>
