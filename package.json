@@ -6,12 +6,16 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "execa": "latest",
+    "push-dir": "^0.4.1"
+  }
 }
