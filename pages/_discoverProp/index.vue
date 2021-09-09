@@ -32,7 +32,7 @@
           id="movieColumn"
         >
           <div class="position-relative">
-            <a :href="'/movie/' + movie.id">
+            <nuxt-link :to="{ name: 'movie-id', params: { id: movie.id } }">
               <img
                 :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
                 :alt="movie.title + ' poster'"
@@ -52,7 +52,7 @@
                   {{ movie.overview }}
                 </div>
               </div>
-            </a>
+            </nuxt-link>
           </div>
 
           <h5 class="mt-2">{{ movie.title }}</h5>

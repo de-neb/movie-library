@@ -197,6 +197,7 @@ export default {
   mounted() {
     this.fetchTrailer();
     this.fetchmovieDetails();
+    console.log(this.$route);
   },
   computed: {
     styleBG() {
