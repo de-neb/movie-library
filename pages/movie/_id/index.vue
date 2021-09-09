@@ -94,7 +94,7 @@
               mt-1
               mb-3
               d-flex
-              gap-3
+              gap-4
               justify-content-md-start justify-content-center
             "
           >
