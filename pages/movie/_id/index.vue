@@ -61,6 +61,13 @@
             :src="'https://image.tmdb.org/t/p/w200' + movieDetails.poster"
             :alt="movieDetails.title + '-poster'"
             class="rounded-3 shadow-lg"
+            v-if="movieDetails.poster"
+          />
+          <img
+            src="~/assets/images/no_poster_w200.png"
+            :alt="movieDetails.title + '-poster'"
+            class="rounded-3 shadow-lg"
+            v-else
           />
         </div>
         <div class="container d-inline mb-5 ms-2">
@@ -76,7 +83,13 @@
               </span>
               <div class="genre mt-1">
                 <span
-                  class="text-center badge rounded-pill bg-dark text-light me-2"
+                  class="
+                    text-center
+                    badge
+                    rounded-1
+                    btn btn-outline-warning
+                    me-2
+                  "
                   v-for="genre in movieDetails.genres"
                   :key="genre.id"
                 >
@@ -84,7 +97,7 @@
                 </span>
               </div>
             </div>
-            <div class="col-12 order-2 mt-1">
+            <div class="col-12 order-2 my-1">
               <Rating :rating="movieDetails.voteAvg" />
             </div>
           </div>

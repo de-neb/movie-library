@@ -169,7 +169,9 @@
                   </span>
                 </div>
               </div>
-
+              <h2 class="mx-auto text-secondary" v-if="!cast.length">
+                No Cast found.
+              </h2>
               <button class="scroll-np top-0 end-0" @click="scrollRight">
                 <span class="material-icons fs-2 text-light">
                   arrow_forward_ios
@@ -220,7 +222,9 @@
                   </span>
                 </div>
               </div>
-
+              <h2 class="mx-auto text-secondary" v-if="!crew.length">
+                No Crew found.
+              </h2>
               <button class="scroll-np top-0 end-0" @click="scrollRight">
                 <span class="material-icons fs-2 text-light">
                   arrow_forward_ios

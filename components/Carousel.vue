@@ -96,6 +96,9 @@
               @click="getSelectedPic(index)"
             />
           </a>
+          <h2 class="mx-auto text-secondary" v-if="!backdropPaths.length">
+            No Photos found.
+          </h2>
           <button class="scroll-np top-0 end-0" @click="scrollRight">
             <span class="material-icons fs-2 text-light">
               arrow_forward_ios

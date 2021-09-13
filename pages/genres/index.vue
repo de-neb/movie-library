@@ -13,7 +13,7 @@
         <div
           class="badge-cont d-inline-block me-2 mb-2"
           v-for="genre in genres"
-          :key="genre.id"
+          :key="genre.id + '-' + genre.name"
         >
           <input
             type="checkbox"
@@ -56,10 +56,8 @@
           <li>
             <a
               class="dropdown-item text-capitalize"
-              href="#"
               v-for="(sort, index) in sortValues"
               :key="sort"
-              :value="sort"
               :selected="index == 0"
               @click="sortMovies"
               :data-sort="sort"
@@ -97,11 +95,11 @@
       <div
         class="col-10 col-md-3 col-sm-4 p-3"
         v-for="movie in movieList"
-        :key="movie.id"
+        :key="movie.id + '-' + movie.title"
         id="movieColumn"
       >
         <div class="position-relative">
-          <a :href="'/movie/' + movie.id">
+          <nuxt-link :to="{ name: 'movie-id', params: { id: movie.id } }">
             <img
               :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
               :alt="movie.title + ' poster'"
@@ -121,12 +119,10 @@
                 {{ movie.overview }}
               </div>
             </div>
-          </a>
+          </nuxt-link>
         </div>
-        <h5 class="mt-2">{{ movie.title }}</h5>
-        <h6 class="mt-2 fw-bold badge bg-warning text-dark rounded-pill">
-          {{ Math.round(parseFloat(movie.rating) * 10) / 10 }} ★
-        </h6>
+        <h5 class="mt-2 fw-bold">{{ movie.title }}</h5>
+        <Rating :rating="movie.rating" :movieId="movie.id" />
       </div>
     </div>
     <div
@@ -152,6 +148,7 @@
 
 <script>
 export default {
+  watchQuery: true,
   data() {
     return {
       apiKey: process.env.API_KEY,
@@ -165,10 +162,12 @@ export default {
       hide: true,
       sortValues: ["popularity.desc", "release_date.desc", "vote_average.desc"],
       sortValueCopy: "popularity.desc",
+      nameList: [],
     };
   },
   methods: {
     async fetchGenreList() {
+      this.genres = [];
       const url = `${this.baseURL}/genre/movie/list?api_key=${this.apiKey}&language=en-US`;
       const response = await fetch(url);
       const data = await response.json();
@@ -202,15 +201,23 @@ export default {
       const url = `${this.baseURL}/discover/movie?api_key=${
         this.apiKey
       }&language=en-US&sort_by=popularity.desc&include_adult=false&page=1&with_genres=${this.genreSelected.toString()}`;
+      //displays selected genre in router link
+      this.$router.push({
+        path: "/genres",
+        hash: `#${this.nameList.toString()}`,
+      });
+
       this.fetchMovieByGenres(url);
     },
     getSelectedGenre(event) {
       this.genres.forEach((genre) => {
         if (genre.isChecked && !this.genreSelected.includes(genre.id)) {
           this.genreSelected.push(genre.id);
+          this.nameList.push(genre.name.toLowerCase());
         } else if (!genre.isChecked && this.genreSelected.includes(genre.id)) {
           const index = this.genreSelected.indexOf(genre.id);
           this.genreSelected.splice(index, 1);
+          this.nameList.splice(index, 1);
         }
       });
 
@@ -221,6 +228,7 @@ export default {
       const url = `${this.baseURL}/discover/movie?api_key=${
         this.apiKey
       }&language=en-US&sort_by=popularity.desc&include_adult=false&page=${page}&with_genres=${this.genreSelected.toString()}`;
+
       this.fetchMovieByGenres(url);
       this.$el.scrollIntoView({ behavior: "smooth" });
     },
@@ -240,6 +248,16 @@ export default {
     this.fetchMovieByGenres(
       `${this.baseURL}/discover/movie?api_key=${this.apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&page=1`
     );
+  },
+  beforeRouteUpdate(to, from, next) {
+    const url = `${this.baseURL}/discover/movie?api_key=${
+      this.apiKey
+    }&language=en-US&sort_by=popularity.desc&include_adult=false&page=${
+      this.currentPage
+    }&with_genres=${to.hash.replace("#", "")}`;
+    // this.fetchMovieByGenres(url);
+
+    next();
   },
 };
 </script>

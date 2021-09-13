@@ -34,7 +34,7 @@
           :key="movie.id"
         >
           <div class="position-relative">
-            <a :href="'/movie/' + movie.id">
+            <nuxt-link :to="{ name: 'movie-id', params: { id: movie.id } }">
               <img
                 :src="'https://image.tmdb.org/t/p/w400' + movie.poster"
                 :alt="movie.title + ' poster'"
@@ -54,13 +54,11 @@
                   {{ movie.overview }}
                 </div>
               </div>
-            </a>
+            </nuxt-link>
           </div>
 
           <h5 class="mt-2">{{ movie.title }}</h5>
-          <h6 class="mt-2 fw-bold badge bg-warning text-dark rounded-pill">
-            {{ movie.rating }} ★
-          </h6>
+          <Rating :rating="movie.rating" :movieId="movie.id" />
         </div>
       </div>
     </div>
