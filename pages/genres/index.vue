@@ -167,7 +167,6 @@ export default {
   },
   methods: {
     async fetchGenreList() {
-      this.genres = [];
       const url = `${this.baseURL}/genre/movie/list?api_key=${this.apiKey}&language=en-US`;
       const response = await fetch(url);
       const data = await response.json();
@@ -201,11 +200,6 @@ export default {
       const url = `${this.baseURL}/discover/movie?api_key=${
         this.apiKey
       }&language=en-US&sort_by=popularity.desc&include_adult=false&page=1&with_genres=${this.genreSelected.toString()}`;
-      //displays selected genre in router link
-      this.$router.push({
-        path: "/genres",
-        hash: `#${this.nameList.toString()}`,
-      });
 
       this.fetchMovieByGenres(url);
     },
@@ -248,16 +242,6 @@ export default {
     this.fetchMovieByGenres(
       `${this.baseURL}/discover/movie?api_key=${this.apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&page=1`
     );
-  },
-  beforeRouteUpdate(to, from, next) {
-    const url = `${this.baseURL}/discover/movie?api_key=${
-      this.apiKey
-    }&language=en-US&sort_by=popularity.desc&include_adult=false&page=${
-      this.currentPage
-    }&with_genres=${to.hash.replace("#", "")}`;
-    // this.fetchMovieByGenres(url);
-
-    next();
   },
 };
 </script>
