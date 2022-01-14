@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/top_rated", {data:[{}],fetch:{},mutations:[]});
