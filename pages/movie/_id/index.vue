@@ -151,7 +151,7 @@ export default {
     return {
       baseURL: "https://api.themoviedb.org/3/movie",
       apiKey: process.env.API_KEY,
-      youtubeKey: null,
+      youtubeKey: "",
       movieDetails: {},
       movieId: this.$route.params.id,
     };
@@ -198,17 +198,18 @@ export default {
   mounted() {
     this.fetchTrailer();
     this.fetchmovieDetails();
-    console.log(this.$route);
   },
   computed: {
     styleBG() {
-      return {
-        "background-image":
-          "linear-gradient(0deg, rgba(253,185,60,1) 14%, rgba(0,0,0,1) 100%)," +
-          "url(" +
-          `https://image.tmdb.org/t/p/original${this.movieDetails.backdrop}` +
-          ")",
-      };
+      if (this.movieDetails.backdrop) {
+        return {
+          "background-image":
+            "linear-gradient(0deg, rgba(253,185,60,1) 14%, rgba(0,0,0,1) 100%)," +
+            "url(" +
+            `https://image.tmdb.org/t/p/original${this.movieDetails.backdrop}` +
+            ")",
+        };
+      }
     },
   },
 };
