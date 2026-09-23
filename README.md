@@ -1,24 +1,38 @@
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/denksy/todolists-and-notes">
-  </a>
+# The Movie Library
 
-<h3 align="center">The Movie Library</h3>
+A movie discovery web application built with Nuxt and Vue. It consumes The Movie Database API to let users browse and search movie content through a responsive front-end interface.
 
-  <p align="center">
-    <a href="https://de-neb.github.io/movie-library/">View Demo</a>
-  </p>
-</div>
+## Live Demo
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+https://de-neb.github.io/movie-library/
 
-A website where you can browse upcoming, popular, latest releases, or top-rated movies; search movies with specific genres and see its information. I used TheMovieDatabase's API for the data and Nuxt (a Vue framework) for this project which made creating components, pages, and routing easier.
+## Highlights
 
+- Browse upcoming, popular, latest, and top-rated movies
+- Search and filter movies by genre
+- View movie information and artwork from an external API
+- Component-based UI built with Vue and Nuxt
+- Client-side routing and page-based navigation
+- Responsive styling with Sass
 
-### Built With
+## Tech Stack
 
-* [Sass](https://sass-lang.com/)
-* [Vue.js](https://vuejs.org/)
-* [Nuxt.js](https://nuxtjs.org/)
+- Vue.js
+- Nuxt 2
+- Sass
+- The Movie Database API
+
+## Running Locally
+
+```bash
+git clone https://github.com/de-neb/movie-library.git
+cd movie-library
+npm install
+npm run dev
+```
+
+## Generate Static Build
+
+```bash
+npm run generate
+```
