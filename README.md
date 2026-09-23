@@ -1,38 +1,23 @@
 # The Movie Library
 
-A movie discovery web application built with Nuxt and Vue. It consumes The Movie Database API to let users browse and search movie content through a responsive front-end interface.
+A website where you can browse upcoming, popular, latest, and top-rated movies. You can also search by genre and view movie information.
 
-## Live Demo
+[View Demo](https://de-neb.github.io/movie-library/)
 
-https://de-neb.github.io/movie-library/
+## About The Project
 
-## Highlights
+I used The Movie Database API for the movie data and Nuxt for the frontend. This was one of my earlier Vue projects and I used it to practice components, pages, routing, API requests, and responsive layouts.
 
-- Browse upcoming, popular, latest, and top-rated movies
-- Search and filter movies by genre
-- View movie information and artwork from an external API
-- Component-based UI built with Vue and Nuxt
-- Client-side routing and page-based navigation
-- Responsive styling with Sass
-
-## Tech Stack
+## Built With
 
 - Vue.js
-- Nuxt 2
+- Nuxt.js
 - Sass
 - The Movie Database API
 
-## Running Locally
+## Project Setup
 
 ```bash
-git clone https://github.com/de-neb/movie-library.git
-cd movie-library
 npm install
 npm run dev
-```
-
-## Generate Static Build
-
-```bash
-npm run generate
 ```
